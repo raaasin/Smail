@@ -2,6 +2,7 @@ const express = require('express');
 const { MongoClient } = require("mongodb");
 const app = express();
 const port = 3000; // You can use any available port
+import {apikey} from cred;
 
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
@@ -14,11 +15,8 @@ app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 
-
-
-
 // Replace the uri string with your connection string.
-const uri = "mongodb+srv://raaasin:admin@smailage.qfhufeg.mongodb.net/";
+const uri = apikey;
 
 const client = new MongoClient(uri);
 
