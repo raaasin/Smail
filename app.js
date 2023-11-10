@@ -1,38 +1,64 @@
 const express = require('express');
-const { MongoClient } = require("mongodb");
 const app = express();
-const port = 3000; // You can use any available port
-import {apikey} from cred;
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const { MongoClient } = require('mongodb');
+const { apikey } = require('./cred');
+const path = require('path');
+app.use('/css', express.static(path.join(__dirname, 'css')));
 
-// Serve static files from the 'public' directory
-app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'your-session-secret',
+  resave: false,
+  saveUninitialized: true,
+}));
+
+// Middleware to check if the user is logged in
+const requireLogin = (req, res, next) => {
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+};
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
-
-// Replace the uri string with your connection string.
-const uri = apikey;
-
-const client = new MongoClient(uri);
-
-app.post('/submit', async (req, res) => {
-  const { email, message } = req.body;
-
-  // Save the data to the MongoDB database
-  try {
-    const database = client.db('sample_mflix');
-    const emailsCollection = database.collection('emails');
-
-    await emailsCollection.insertOne({ email, message });
-
-    res.send('Data saved successfully!');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+  if (req.session.user) {
+    res.sendFile(__dirname + '/smailit.html');
+  } else {
+    res.redirect('/login');
   }
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile(__dirname + '/login.html');
+});
+
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const client = await MongoClient.connect(apikey, { useNewUrlParser: true });
+    const db = client.db('smail-mail');
+    const collection = db.collection('users');
+
+    const user = await collection.findOne({ username, password });
+
+    if (user) {
+      req.session.user = user; // Store user information in the session
+      res.redirect('/');
+    } else {
+      res.send('<script>alert("Invalid username or password"); window.location.href="/login";</script>');
+    }
+
+    client.close();
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('<script>alert("Error 500, internet problems?"); window.location.href="/login";</script>');
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Server listening on port http://localhost:3000/');
 });
