@@ -41,9 +41,25 @@ app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'views','login.html'));
 });
 
-app.get('/sent', requireLogin, (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'sent.html'));
+app.get('/sent', async (req, res) => {
+  try {
+    const client = await MongoClient.connect(apikey, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
+    const db = client.db('smail-mail');
+    const collection = db.collection('emails');
+
+    const senderUsername = req.session.user.username;
+    const sentEmails = await collection.find({ sender: senderUsername }).toArray();
+
+    res.render('sent', { emails: sentEmails });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('<script>alert("Error 500, internet problems?"); window.location.href="/login";</script>');
+  }
 });
+
 
 app.get('/receive', requireLogin, async (req, res) => {
   try {

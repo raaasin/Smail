@@ -44,6 +44,25 @@ a {
 </style>
 </head>
 <body>
+  <div style="display: flex; flex-direction: row; width: 100vw; height: 100vh;">
+    <div class="container" style="width: 50vw;">
+      <span style="justify-content: space-between; flex-direction: row; display: flex; ">
+        <h1>Your sent smails</h1>
+      </span>
+      <!-- Sent emails will pop up as a stack here -->
+      <div id="sentEmailsContainer" style="overflow-y: auto; max-height: 75vh;">
+        <% emails.forEach(email => { %>
+          <div class="card" style="background-color: #1f1d1d;">
+            <div class="card-body">
+              <h5 class="card-title">To: <%= email.receiver %></h5>
+              <p class="card-text"><%= email.message %></p>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+      
+    </div>
+  </div>
   <div class="container fixed-bottom">
     <div class="row justify-content-center">
       <div class="col-md-4">
