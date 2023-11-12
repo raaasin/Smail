@@ -65,8 +65,3 @@ Contributions are welcome! Fork the repository and create a pull request with yo
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-```
-
-This README template provides an overview of the project, instructions on how to set it up, and key features. Feel free to customize it further based on your project's specific details. Additionally, if there are any specific points you'd like to highlight or additional information you'd like to include, you can modify and expand the README accordingly.
-```
