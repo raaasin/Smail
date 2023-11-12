@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "main": "index.html",
   "scripts": {
-    "postinstall": "babel app.js -d dist",
-    "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "gh-pages -d smail"
   },
@@ -21,8 +19,6 @@
     "mongodb": "^6.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.3",
-    "@babel/preset-env": "^7.23.3",
     "gh-pages": "^6.0.0"
   }
 }
