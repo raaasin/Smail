@@ -3,9 +3,9 @@ const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const { MongoClient } = require('mongodb');
-const { apikey } = require('./cred');
+const dotenv = require('dotenv');
 const path = require('path');
-
+dotenv.config();
 app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
 app.set('view engine', 'ejs');
 
@@ -59,7 +59,7 @@ app.get('/login', requireNoLogin, (req, res) => {
 
 app.get('/sent', async (req, res) => {
   try {
-    const client = await MongoClient.connect(apikey, {
+    const client = await MongoClient.connect(process.env.API_KEY, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     });
@@ -78,7 +78,7 @@ app.get('/sent', async (req, res) => {
 
 app.get('/receive', async (req, res) => {
   try {
-    const client = await MongoClient.connect(apikey, {
+    const client = await MongoClient.connect(process.env.API_KEY, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     });
@@ -107,7 +107,7 @@ app.post('/login', requireNoLogin, async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const client = await MongoClient.connect(apikey, { useNewUrlParser: true });
+    const client = await MongoClient.connect(process.env.API_KEY, { useNewUrlParser: true });
     const db = client.db('smail-mail');
     const collection = db.collection('users');
 
@@ -131,7 +131,7 @@ app.post('/submit-form', requireLogin, async (req, res) => {
   const { email, message } = req.body;
 
   try {
-    const client = await MongoClient.connect(apikey, { useNewUrlParser: true });
+    const client = await MongoClient.connect(process.env.API_KEY, { useNewUrlParser: true });
     const db = client.db('smail-mail');
     const collection = db.collection('emails'); // Change collection name to 'emails'
 
