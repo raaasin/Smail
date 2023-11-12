@@ -52,7 +52,7 @@ a {
       <!-- SMails will pop up as a stack here -->
       <div id="receivedEmailsContainer" style="overflow-y: auto; max-height: 75vh;">
         <% emails.forEach(email => { %>
-          <div class="card" style="background-color: #1f1d1d;">
+          <div class="card" style="background-color: #333">
             <div class="card-body">
               <h5 class="card-title">From: <%= email.sender %></h5>
               <p class="card-text"><%= email.message %></p>
