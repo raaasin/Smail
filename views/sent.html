@@ -1,0 +1,65 @@
+<!-- FILEPATH: /c:/Users/dell/Documents/Projects/Current/smail/smailbox_bottom.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Smail</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css"> <!-- You can include your custom style.css if needed -->
+  <style>
+    body {
+    background-color: #222;/* Dark gray background */
+    color: #00ff00; /* Matrix green text */
+}
+
+/* Apply dark color palette to containers and cards */
+.container, .card {
+    background-color: #222; /* Darker gray background */
+    color: #00ff00;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* Apply dark color palette to form elements */
+.form-group, label, input, textarea, button {
+    color: #00ff00;
+}
+
+/* Apply dark color palette to buttons */
+.btn {
+    background-color: #333; /* Darker gray background for buttons */
+    color: #00ff00;
+}
+
+/* Apply dark color palette to links */
+a {
+    color: #00ff00;
+}
+
+/* Add more styles as needed */
+
+</style>
+</head>
+<body>
+  <div class="container fixed-bottom">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <a href="/logout" class="btn btn-danger btn-block">Logout</a>
+      </div>
+      <div class="col-md-4">
+        <a href="/smailit" class="btn btn-primary btn-block">Compose</a>
+      </div>
+      <div class="col-md-4">
+        <a href="/receive" class="btn btn-primary btn-block">Received</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
