@@ -16,7 +16,7 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-// Middleware to check if the user is logged in
+// Middleware to check if the user is logged in, and if not, redirect to login
 const requireLogin = (req, res, next) => {
   if (req.session.user) {
     next();
@@ -25,20 +25,36 @@ const requireLogin = (req, res, next) => {
   }
 };
 
-app.get('/', (req, res) => {
+// Middleware to check if the user is already logged in and redirect to home
+const requireNoLogin = (req, res, next) => {
   if (req.session.user) {
-    res.sendFile(path.join(__dirname, 'views', 'smailit.html'));
+    res.redirect('/');
+  } else {
+    next();
+  }
+};
+
+// Middleware to check if the user is logged in for /smailit, and if not, redirect to login
+const requireLoginForSmailIt = (req, res, next) => {
+  if (req.session.user) {
+    next();
   } else {
     res.redirect('/login');
   }
-});
+};
 
-app.get('/smailit', (req, res) => {
+app.use(['/smailit', '/sent', '/receive'], requireLogin);
+
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'smailit.html'));
 });
 
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views','login.html'));
+app.get('/smailit', requireLoginForSmailIt, (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'smailit.html'));
+});
+
+app.get('/login', requireNoLogin, (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
 
 app.get('/sent', async (req, res) => {
@@ -60,8 +76,7 @@ app.get('/sent', async (req, res) => {
   }
 });
 
-
-app.get('/receive', requireLogin, async (req, res) => {
+app.get('/receive', async (req, res) => {
   try {
     const client = await MongoClient.connect(apikey, {
       useUnifiedTopology: true,
@@ -73,7 +88,7 @@ app.get('/receive', requireLogin, async (req, res) => {
 
     const receiverUsername = req.session.user.username;
     const receivedEmails = await collection.find({ receiver: receiverUsername }).toArray();
-    console.log(receivedEmails);
+    
     res.render('receive', { emails: receivedEmails });
 
     client.close();
@@ -83,16 +98,12 @@ app.get('/receive', requireLogin, async (req, res) => {
   }
 });
 
-app.get('/smailit', requireLogin, (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'smailit.html'));
-});
-
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/login');
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login', requireNoLogin, async (req, res) => {
   const { username, password } = req.body;
 
   try {
