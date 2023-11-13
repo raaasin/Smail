@@ -46,15 +46,15 @@ const requireLoginForSmailIt = (req, res, next) => {
 app.use(['/smailit', '/sent', '/receive'], requireLogin);
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'smailit.html'));
+  res.render('login');
 });
 
 app.get('/smailit', requireLoginForSmailIt, (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'smailit.html'));
+  res.render('smailit');
 });
 
 app.get('/login', requireNoLogin, (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'login.html'));
+  res.render('login');
 });
 
 app.get('/sent', async (req, res) => {
@@ -115,7 +115,7 @@ app.post('/login', requireNoLogin, async (req, res) => {
 
     if (user) {
       req.session.user = user; // Store user information in the session
-      res.redirect('/');
+      res.redirect('/smailit');
     } else {
       res.send('<script>alert("Invalid username or password"); window.location.href="/login";</script>');
     }
