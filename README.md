@@ -1,4 +1,3 @@
-
 # Smail Web Application
 
 Smail-mail is a simple web application built with Node.js, Express, and MongoDB for sending and receiving emails.
@@ -50,7 +49,7 @@ Make sure you have the following installed on your machine:
 ## Project Structure
 
 - `app.js`: Main application file
-- `views/`: EJS view templates 
+- `views/`: EJS view templates
 - `public/css/`: Stylesheets
 
 ## Dependencies
@@ -64,4 +63,4 @@ Contributions are welcome! Fork the repository and create a pull request with yo
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](https://opensource.org/license/mit/).
