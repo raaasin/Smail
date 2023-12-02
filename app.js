@@ -32,7 +32,6 @@ const requireNoLogin = (req, res, next) => {
   }
 };
 
-// Middleware to check if the user is logged in for /smailit, and if not, redirect to login
 const requireLoginForSmailIt = (req, res, next) => {
   if (req.session.user) {
     next();
