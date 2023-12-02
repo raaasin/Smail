@@ -16,7 +16,6 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-// Middleware to check if the user is logged in, and if not, redirect to login
 const requireLogin = (req, res, next) => {
   if (req.session.user) {
     next();
@@ -25,7 +24,6 @@ const requireLogin = (req, res, next) => {
   }
 };
 
-// Middleware to check if the user is already logged in and redirect to home
 const requireNoLogin = (req, res, next) => {
   if (req.session.user) {
     res.redirect('/');
@@ -114,7 +112,7 @@ app.post('/login', requireNoLogin, async (req, res) => {
     const user = await collection.findOne({ username, password });
 
     if (user) {
-      req.session.user = user; // Store user information in the session
+      req.session.user = user; 
       res.redirect('/smailit');
     } else {
       res.send('<script>alert("Invalid username or password"); window.location.href="/login";</script>');
