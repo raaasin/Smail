@@ -1,6 +1,6 @@
 # Smail Web Application
 
-Smail-mail is a simple web application built with Node.js, Express, and MongoDB for sending and receiving emails.
+Smail is a simple web application built with Node.js, Express, and MongoDB for sending and receiving emails.
 
 ## Features
 
